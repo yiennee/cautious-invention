@@ -1,0 +1,183 @@
+﻿<Window x:Class="TesterProgram.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TesterProgram"
+        Loaded="Window_Loaded"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <local:MainViewModel/>
+    </Window.DataContext>
+    <Grid Background="Transparent" Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="Table_1" Background="Transparent" VerticalAlignment="Stretch" Height="Auto" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="BorderBrush" Value="SlateGray"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                </Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Margin" Value="3"/>
+                </Style>
+            </Grid.Resources>
+
+            <Border Grid.Row="0" Grid.Column="0" Background="Transparent">
+                <StackPanel>
+                    <Button Content="Copy Image [source, dest, waferID]" Margin="10,2" Command="{Binding CMD_A_1}"/>
+                    <TextBox Text="{Binding Str_A_1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Text="{Binding Str_A_3, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Text="{Binding Str_A_2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="0" Grid.Column="1" Background="Transparent">
+                <StackPanel>
+                    <Button Content="Add all wafer units into ImageList" Margin="10,2" Command="{Binding CMD_B_1}"/>
+                    <TextBox Text="{Binding Str_B_1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Text="{Binding Str_B_2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Text="add this into main command"/>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="0" Grid.Column="2">
+                <StackPanel>
+                    <Button Content="Send Wafer Command" Margin="10,2" Command="{Binding CMD_C_1}"/>
+                    <TextBox Text="{Binding Str_C_1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Text="{Binding Str_C_2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Text="add this into main command"/>
+                </StackPanel>
+            </Border>
+
+
+            <Border Grid.Row="1" Grid.Column="0">
+                <Button Content="Test DateTime" Margin="10,2" Command="{Binding CMD_E_1}"/>
+            </Border>
+            <Border Grid.Row="1" Grid.Column="1">
+                <Button Content="Generate Missing" Margin="10,2" Command="{Binding CMD_F_1}"/>
+            </Border>
+            <Border Grid.Row="1" Grid.Column="2">
+                <TextBlock Text="12" Grid.Row="0"/>
+            </Border>
+            
+            <Border Grid.Row="2" Grid.Column="0">
+                <TextBlock Text="20"/>
+            </Border>
+            
+            <Border Grid.Row="2" Grid.Column="1" Margin="0" HorizontalAlignment="Stretch">
+                <TextBlock Text="21"/>
+            </Border>
+
+            <Border Grid.Row="2" Grid.Column="2" Margin="0" HorizontalAlignment="Stretch">
+                <TextBlock Text="22"/>
+            </Border>
+
+            <Border Grid.Row="3" Grid.Column="0">
+                <TextBlock Text="30"/>
+            </Border>
+
+            <Border Grid.Row="3" Grid.Column="1" Margin="0" HorizontalAlignment="Stretch">
+                <TextBlock Text="31"/>
+            </Border>
+
+            <Border Grid.Row="3" Grid.Column="2" Margin="0" HorizontalAlignment="Stretch">
+                <TextBlock Text="32"/>
+            </Border>
+
+            <Border Grid.Row="4" Grid.Column="0">
+                <TextBlock Text="40"/>
+            </Border>
+
+
+            <Border Grid.Row="4" Grid.Column="1" Margin="0" HorizontalAlignment="Stretch">
+                <TextBlock Text="41"/>
+            </Border>
+
+            <Border Grid.Row="4" Grid.Column="2" Margin="0" HorizontalAlignment="Stretch">
+                <TextBlock Text="42"/>
+            </Border>
+
+
+            <Border Grid.Row="5" Grid.Column="0" Margin="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBox Text="SOURCE: "/>
+                    <TextBox Text="DESTINATION: "/>
+                    <TextBox Text="Start index:"/>
+                    <TextBox Text="WaitTime (ms):"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBox Text="{Binding Str_G_1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Text="{Binding Str_G_2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Text="{Binding Str_G_3, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Text="{Binding Str_G_4, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    </StackPanel>
+                    <Button Content="Start Copy" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,2"  Command="{Binding CMD_G_1}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+                    <Button Content="Stop" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="40,2,40,2"  Command="{Binding CMD_G_2}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
+                </Grid>
+            </Border>
+            
+            <Border Grid.Row="5" Grid.Column="1" Margin="0" HorizontalAlignment="Stretch">
+                <TextBlock Text="51"/>
+            </Border>
+
+            <Border Grid.Row="5" Grid.Column="2" Margin="0" HorizontalAlignment="Stretch">
+                <!--<TextBlock Text="52"/>-->
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button Content="Copy Image" HorizontalAlignment="Stretch" Margin="2" Command="{Binding CMD_D_1}"/>
+                        <Button Content="Stop" HorizontalAlignment="Stretch" Margin="2" Grid.Column="1" Command="{Binding CMD_D_2}"/>
+                    </Grid>
+                    <TextBox Text="{Binding Str_D_1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Text="{Binding Str_D_2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Text="{Binding Str_D_3, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Text="{Binding Str_D_4, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+        <Grid x:Name="Table_2" Background="Transparent" VerticalAlignment="Stretch" Height="Auto" Grid.Row="1">
+            <ScrollViewer Margin="2">
+                <ListBox x:Name="logListBox" Background="Gray" Foreground="White" ItemsSource="{Binding RunLog, UpdateSourceTrigger=PropertyChanged}">
+                    <ListBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Clear" Command="{Binding CMD_Log_1}"/>
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+                </ListBox>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Window>
