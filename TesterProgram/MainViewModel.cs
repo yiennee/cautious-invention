@@ -711,6 +711,9 @@ namespace TesterProgram
                         string[] tifFiles = Directory.GetFiles(str_G_2, "*.tif");
                         int tifFileCount = tifFiles.Length;
 
+                        int delay = 0;
+                        var result = int.TryParse(str_G_4, out delay);
+
                         // if the file count is less than 200
                         if (tifFileCount < 100)// && !IsCopying)
                         {
@@ -754,6 +757,8 @@ namespace TesterProgram
                                         //File.Delete(destFileName);
                                         //File.Copy(sourceFileName, destFileName);
                                     }
+
+                                    Thread.Sleep(delay);
                                 }//done whole wafer
                             }
                             catch (Exception ex)
