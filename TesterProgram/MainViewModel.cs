@@ -42,6 +42,13 @@ namespace TesterProgram
         private ICommand cMD_G_2;
         private ICommand cMD_Log_1;
         private ObservableCollection<string> _runLog = new ObservableCollection<string>();
+        private string str_H_1 = @"E:\offline_xml";
+        private string str_H_2 = @"E:\dest_xml";
+        private string str_H_3 = "1";
+        private string str_H_4 = "ms";
+        private ICommand cMD_H_1;
+        private ICommand cMD_H_2;
+        private ICommand cMD_H_3;
         //add public member here below
 
         private bool startcopy = false;
@@ -658,8 +665,8 @@ namespace TesterProgram
             }
         }
 
-        CancellationTokenSource ctsG = new CancellationTokenSource();
-        CancellationToken tokenG;
+        CancellationTokenSource cts_G_1 = new CancellationTokenSource();
+        CancellationToken token_G_1;
 
         public ICommand CMD_G_1
         {
@@ -669,8 +676,8 @@ namespace TesterProgram
                 {
                     try
                     {
-                        ctsG = new CancellationTokenSource(); // Create a new CancellationTokenSource
-                        tokenG = ctsG.Token; // Get the new token
+                        cts_G_1 = new CancellationTokenSource(); // Create a new CancellationTokenSource
+                        token_G_1 = cts_G_1.Token; // Get the new token
                         var IsSuccess = int.TryParse(str_G_3, out waferindex);
                         StartCopy();
                     }
@@ -693,17 +700,17 @@ namespace TesterProgram
         {
             Task tsk = Task.Run(() =>
             {
-                while (!tokenG.IsCancellationRequested)
+                while (!token_G_1.IsCancellationRequested)
                 {
                     // Check if the directory exists
                     if (Directory.Exists(str_G_2))
                     {
                         // Check if cancellation has been requested
-                        if (tokenG.IsCancellationRequested)
+                        if (token_G_1.IsCancellationRequested)
                         {
                             //RunLog.Add("------------StartCopy STOPPED------------");
                             Application.Current.Dispatcher.Invoke(() => RunLog.Add($"{DateTime.Now.ToString("dd-MM-yyyy, HH:mm:ss.fff")} | ------------All STOPPED------------"));
-                            ctsG.Token.ThrowIfCancellationRequested();
+                            cts_G_1.Token.ThrowIfCancellationRequested();
                             File.AppendAllText(logfilepath, $"{DateTime.Now.ToString("dd-MM-yyyy, HH:mm:ss.fff")} | ------------All STOPPED------------" + "\n");
                         }
 
@@ -731,11 +738,11 @@ namespace TesterProgram
                                 foreach (var item in FI)
                                 {
                                     // Check if cancellation has been requested
-                                    if (tokenG.IsCancellationRequested)
+                                    if (token_G_1.IsCancellationRequested)
                                     {
                                         //Console.WriteLine("Task cancellation requested. FI");
                                         Application.Current.Dispatcher.Invoke(() => RunLog.Add($"{DateTime.Now.ToString("dd-MM-yyyy, HH:mm:ss.fff")} | ------------STOPPED Wafer {waferindex}; Unit / {item.Name} /------------"));
-                                        ctsG.Token.ThrowIfCancellationRequested();
+                                        cts_G_1.Token.ThrowIfCancellationRequested();
                                         File.AppendAllText(logfilepath, $"{DateTime.Now.ToString("dd-MM-yyyy, HH:mm:ss.fff")} | ------------STOPPED Wafer {waferindex}; Unit / {item.Name} /------------" + "\n");
                                     }
 
@@ -777,7 +784,7 @@ namespace TesterProgram
                     // Wait for a short period before checking again (to avoid tight loop)
                     Thread.Sleep(100);
                 }
-            }, tokenG);
+            }, token_G_1);
         }
 
         public ICommand CMD_G_2
@@ -786,13 +793,299 @@ namespace TesterProgram
             {
                 return cMD_G_2 ?? (cMD_G_2 = new RelayCommand<object>(param =>
                 {
-                    ctsG.Cancel();
+                    cts_G_1.Cancel();
                 }));
             }
             set
             {
                 cMD_G_2 = value;
             }
+        }
+
+        public string Str_H_1
+        {
+            get { return str_H_1; }
+            set
+            {
+                str_H_1 = value;
+                OnPropertyChanged(nameof(Str_H_1));
+            }
+        }
+        public string Str_H_2
+        {
+            get => str_H_2; set
+            {
+                str_H_2 = value;
+                OnPropertyChanged(nameof(Str_H_2));
+            }
+        }
+        public string Str_H_3
+        {
+            get => str_H_3; set
+            {
+                str_H_3 = value;
+                OnPropertyChanged(nameof(Str_H_3));
+            }
+        }
+        public string Str_H_4
+        {
+            get => str_H_4; set
+            {
+                str_H_4 = value;
+                OnPropertyChanged(nameof(Str_H_4));
+            }
+        }
+
+        CancellationTokenSource cts_H_1 = new CancellationTokenSource();
+        CancellationToken token_H_1;
+        public ICommand CMD_H_1
+        {
+            get
+            {
+                return cMD_H_1 ?? (cMD_H_1 = new RelayCommand<object>(param =>
+                {
+                    try
+                    {
+                        cts_H_1 = new CancellationTokenSource(); // Create a new CancellationTokenSource
+                        token_H_1 = cts_H_1.Token; // Get the new token
+                        var IsSuccess = int.TryParse(str_H_3, out xmlindexbysource);
+                        StartCopyXMLbySource();
+                    }
+                    catch (Exception ex)
+                    {
+                        string logfilepath = @"C:\QVS\Log\" + "TesterLog_" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt";
+                        File.AppendAllText(logfilepath, $"{DateTime.Now.ToString("HH:mm:ss.fff")}; Exception; CMD_H_1; {ex}" + "\n");
+                    }
+                }));
+            }
+            set
+            {
+                cMD_H_1 = value;
+            }
+        }
+
+        int xmlindexbysource = 0;
+        private void StartCopyXMLbySource()
+        {
+            Task tsk = Task.Run(() =>
+            {
+                while (!token_H_1.IsCancellationRequested)
+                {
+                    if (!Directory.Exists(str_H_2))
+                        Directory.CreateDirectory(str_H_2);
+
+                    // Check if cancellation has been requested
+                    if (token_H_1.IsCancellationRequested)
+                    {
+                        Application.Current.Dispatcher.Invoke(() => RunLog.Add($"{DateTime.Now.ToString("dd-MM-yyyy, HH:mm:ss.fff")} | ------------All STOPPED------------"));
+                        cts_H_1.Token.ThrowIfCancellationRequested();
+                        File.AppendAllText(logfilepath, $"{DateTime.Now.ToString("dd-MM-yyyy, HH:mm:ss.fff")} | ------------All STOPPED------------" + "\n");
+                    }
+
+                    // Get .xml files count in the directory
+                    string[] xmlFiles = Directory.GetFiles(str_H_2, "*.xml");
+                    int xmlFileCount = xmlFiles.Length;
+
+                    int delay = 0;
+                    var result = int.TryParse(str_H_4, out delay);
+
+                    // if the file count is less than 200
+                    if (true)// xmlFileCount < 100
+                    {
+                        Application.Current.Dispatcher.Invoke(() => RunLog.Add($"{DateTime.Now.ToString("dd-MM-yyyy, HH:mm:ss.fff")} | StartCopyXml {xmlindexbysource}"));
+                        File.AppendAllText(logfilepath, $"{DateTime.Now.ToString("dd-MM-yyyy, HH:mm:ss.fff")} | StartCopyXml {xmlindexbysource}" + "\n");
+
+                        // Proceed with copy operation
+                        try
+                        {
+                            string foldername = str_H_1;
+                            DirectoryInfo Dir = new DirectoryInfo(foldername);
+                            FileInfo[] FI = Dir.GetFiles("*.xml");
+
+                            foreach (var item in FI)
+                            {
+                                // Check if cancellation has been requested
+                                if (token_H_1.IsCancellationRequested)
+                                {
+                                    Application.Current.Dispatcher.Invoke(() => RunLog.Add($"{DateTime.Now.ToString("dd-MM-yyyy, HH:mm:ss.fff")} | ------------STOPPED xml {xmlindexbysource}; Unit / {item.Name} /------------"));
+                                    cts_H_1.Token.ThrowIfCancellationRequested();
+                                    File.AppendAllText(logfilepath, $"{DateTime.Now.ToString("dd-MM-yyyy, HH:mm:ss.fff")} | ------------STOPPED xml {xmlindexbysource}; Unit / {item.Name} /------------" + "\n");
+                                }
+
+                                string sourceFileName = item.FullName;//3_18A_PPIxml2_CAS01_1_1_25_[]_[]
+                                                                      //string sourceFolderName = Path.GetFileName(Path.GetDirectoryName(sourceFileName));
+                                string sourcedir = Path.GetDirectoryName(sourceFileName);
+                                string destFileName = item.FullName.Replace("CAS01_0_1_25", "CAS01_" + xmlindexbysource + "_1_25").Replace(sourcedir, str_H_2);
+
+                                if (!Directory.Exists(System.IO.Path.GetDirectoryName(destFileName)))
+                                    Directory.CreateDirectory(System.IO.Path.GetDirectoryName(destFileName));
+
+                                if (!File.Exists(destFileName))
+                                {
+                                    File.Copy(sourceFileName, destFileName);
+                                    File.AppendAllText(logfilepath, $"{DateTime.Now.ToString("HH:mm:ss.fff")}; {destFileName} copied" + "\n");
+                                }
+                                else
+                                {
+                                    //File.Delete(destFileName);
+                                    //File.Copy(sourceFileName, destFileName);
+                                }
+
+                                Thread.Sleep(delay);
+                            }//done whole xml
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Main: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            File.AppendAllText(logfilepath, $"{DateTime.Now.ToString("HH:mm:ss.fff")}; Exception; CMD_H_1; {ex}" + "\n");
+                            break;
+                        }
+
+                        Application.Current.Dispatcher.Invoke(() => RunLog.Add($"{DateTime.Now.ToString("dd-MM-yyyy, HH:mm:ss.fff")} | xml {xmlindexbysource} done"));
+                        xmlindexbysource++;
+                    }
+
+                    // Wait for a short period before checking again (to avoid tight loop)
+                    Thread.Sleep(10);
+                }
+            }, token_H_1);
+        }
+        public ICommand CMD_H_2
+        {
+            get
+            {
+                return cMD_H_2 ?? (cMD_H_2 = new RelayCommand<object>(param =>
+                {
+                    cts_H_1.Cancel();
+                    xmlindexbyindex = 0;
+
+                    if (!Directory.Exists(str_H_2))
+                        Directory.CreateDirectory(str_H_2);
+
+                    if (!Directory.Exists(str_H_1))
+                        return;
+
+                    // Get .xml files count in the directory
+                    string[] xmlFiles = Directory.GetFiles(str_H_2, "*.xml");
+                    int xmlFileCount = xmlFiles.Length;
+
+                    Application.Current.Dispatcher.Invoke(() => RunLog.Add($"{DateTime.Now.ToString("dd-MM-yyyy, HH:mm:ss.fff")} | StopCopy xml | Count= {xmlFileCount}"));
+                    File.AppendAllText(logfilepath, $"{DateTime.Now.ToString("dd-MM-yyyy, HH:mm:ss.fff")} | StopCopy xml | Count= {xmlFileCount}" + "\n");
+
+                    foreach (var item in xmlFiles)
+                        File.Delete(item);
+                }));
+            }
+            set
+            {
+                cMD_H_2 = value;
+            }
+        }
+
+        public ICommand CMD_H_3
+        {
+            get
+            {
+                return cMD_H_3 ?? (cMD_H_3 = new RelayCommand<object>(param =>
+                {
+                    try
+                    {
+                        cts_H_1 = new CancellationTokenSource(); // Use back CancellationTokenSource from '_H_1'
+                        token_H_1 = cts_H_1.Token; // Use back cancllation Token from '_H_1'
+                        StartCopyXMLbyIndex();
+                    }
+                    catch (Exception ex)
+                    {
+                        string logfilepath = @"C:\QVS\Log\" + "TesterLog_" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt";
+                        File.AppendAllText(logfilepath, $"{DateTime.Now.ToString("HH:mm:ss.fff")}; Exception; CMD_H_3; {ex}" + "\n");
+                    }
+                }));
+            }
+            set
+            {
+                cMD_H_3 = value;
+            }
+        }
+
+        int xmlindexbyindex = 0;
+        private void StartCopyXMLbyIndex()
+        {
+            Task tsk = Task.Run(() =>
+            {
+                if (!Directory.Exists(str_H_1) || !Directory.Exists(str_H_2))
+                    return;
+
+                // Get .xml files count in the directory
+                string[] xmlFiles = Directory.GetFiles(str_H_2, "*.xml");
+                int xmlFileCount = xmlFiles.Length;
+
+                foreach (var item in xmlFiles)
+                    File.Delete(item);
+
+                string foldername = str_H_1;
+                DirectoryInfo Dir = new DirectoryInfo(foldername);
+                FileInfo[] FI = Dir.GetFiles("*.xml");
+                string sourceFileName = FI[0].FullName;
+                int dividend = 0;
+                int divisor = 945;
+                int quotient = 0;
+                int remainder = 0;
+
+                Application.Current.Dispatcher.Invoke(() => RunLog.Add($"{DateTime.Now.ToString("dd-MM-yyyy, HH:mm:ss.fff")} | StartCopyXml by index"));
+                File.AppendAllText(logfilepath, $"{DateTime.Now.ToString("dd-MM-yyyy, HH:mm:ss.fff")} | StartCopyXml by index" + "\n");
+
+                while (!token_H_1.IsCancellationRequested)
+                {
+                    try
+                    {
+                        if (!Directory.Exists(str_H_2))
+                            Directory.CreateDirectory(str_H_2);
+
+                        if (token_H_1.IsCancellationRequested)
+                        {
+                            Application.Current.Dispatcher.Invoke(() => RunLog.Add($"{DateTime.Now.ToString("dd-MM-yyyy, HH:mm:ss.fff")} | ------------STOPPED# Wafer {quotient} | Unit {remainder} | {dividend}------------"));
+                            cts_H_1.Token.ThrowIfCancellationRequested();
+                            File.AppendAllText(logfilepath, $"{DateTime.Now.ToString("dd-MM-yyyy, HH:mm:ss.fff")} | ------------STOPPED# Wafer {quotient} | Unit {remainder} | {dividend}------------" + "\n");
+                        }
+
+                        int delay = 0;
+                        var result = int.TryParse(str_H_4, out delay);
+
+                        // if the file count is less than n
+                        if (true)
+                        {
+                            xmlindexbyindex++;
+
+                            dividend = xmlindexbyindex;
+                            quotient = dividend / divisor + 1;//wafer index
+                            remainder = quotient == 1 ? dividend % divisor : dividend % divisor + 1;//unit index of current wafer
+                            string newfilename = "30018A_PPIDUMMY_CAS01_" + quotient + "_1_25_" + remainder + ".xml";
+                            string destFileName = str_H_2 + @"\" + newfilename;// 30018A_PPIDUMMY_CAS01_" + quotient + "_1_25_" + remainder + ".xml";
+
+                            if (!Directory.Exists(System.IO.Path.GetDirectoryName(destFileName)))
+                                Directory.CreateDirectory(System.IO.Path.GetDirectoryName(destFileName));
+
+                            if (!File.Exists(destFileName))
+                            {
+                                File.Copy(sourceFileName, destFileName);
+                                File.AppendAllText(logfilepath, $"{DateTime.Now.ToString("HH:mm:ss.fff")}; [{newfilename}] | Wafer {quotient} | Unit {remainder} | {dividend}" + "\n");
+                            }
+
+                            Thread.Sleep(delay);
+
+                        }
+
+                        //// Wait for a short period before checking again (to avoid tight loop)
+                        //Thread.Sleep(100);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Main: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        File.AppendAllText(logfilepath, $"{DateTime.Now.ToString("HH:mm:ss.fff")}; Exception; CMD_H_1; {ex}" + "\n");
+                        break;
+                    }
+                }
+            }, token_H_1);
         }
     }
 }

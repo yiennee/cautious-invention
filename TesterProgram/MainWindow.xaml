@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TesterProgram"
         Loaded="Window_Loaded"
         mc:Ignorable="d"
-        Title="MainWindow" Height="750" Width="450">
+        Title="MainWindow" Height="750" Width="480">
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>
@@ -79,11 +79,11 @@
             <Border Grid.Row="1" Grid.Column="2">
                 <TextBlock Text="12" Grid.Row="0"/>
             </Border>
-            
+
             <Border Grid.Row="2" Grid.Column="0">
                 <TextBlock Text="20"/>
             </Border>
-            
+
             <Border Grid.Row="2" Grid.Column="1" Margin="0" HorizontalAlignment="Stretch">
                 <TextBlock Text="21"/>
             </Border>
@@ -129,25 +129,50 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0">
-                    <TextBox Text="SOURCE: "/>
-                    <TextBox Text="DESTINATION: "/>
-                    <TextBox Text="Start index:"/>
-                    <TextBox Text="WaitTime (ms):"/>
-                </StackPanel>
-                <StackPanel Grid.Column="1">
-                    <TextBox Text="{Binding Str_G_1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                    <TextBox Text="{Binding Str_G_2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                    <TextBox Text="{Binding Str_G_3, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                    <TextBox Text="{Binding Str_G_4, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <StackPanel Grid.Column="0">
+                        <TextBox Text="SOURCE: "/>
+                        <TextBox Text="DESTINATION: "/>
+                        <TextBox Text="Start index:"/>
+                        <TextBox Text="WaitTime (ms):"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBox Text="{Binding Str_G_1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        <TextBox Text="{Binding Str_G_2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        <TextBox Text="{Binding Str_G_3, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        <TextBox Text="{Binding Str_G_4, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                     </StackPanel>
                     <Button Content="Start Copy" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,2"  Command="{Binding CMD_G_1}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
                     <Button Content="Stop" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="40,2,40,2"  Command="{Binding CMD_G_2}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
                 </Grid>
             </Border>
-            
+
             <Border Grid.Row="5" Grid.Column="1" Margin="0" HorizontalAlignment="Stretch">
-                <TextBlock Text="51"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBox Text="SOURCE: "/>
+                        <TextBox Text="DESTINATION: "/>
+                        <TextBox Text="Start index:"/>
+                        <TextBox Text="WaitTime (ms):"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBox Text="{Binding Str_H_1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        <TextBox Text="{Binding Str_H_2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        <TextBox Text="{Binding Str_H_3, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        <TextBox Text="{Binding Str_H_4, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    </StackPanel>
+                    <Button Content="Copy/source" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="1,2,19,2"  Command="{Binding CMD_H_1}" Grid.Row="1" Grid.Column="0"/>
+                    <Button Content="Copy/index" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="73,2,1,2"  Command="{Binding CMD_H_3}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+                    <Button Content="Stop" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="40,2,40,2"  Command="{Binding CMD_H_2}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
+                </Grid>
             </Border>
 
             <Border Grid.Row="5" Grid.Column="2" Margin="0" HorizontalAlignment="Stretch">
