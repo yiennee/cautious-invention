@@ -1027,7 +1027,7 @@ namespace TesterProgram
                 FileInfo[] FI = Dir.GetFiles("*.xml");
                 string sourceFileName = FI[0].FullName;
                 int dividend = 0;
-                int divisor = 945;
+                int divisor = 944;
                 int quotient = 0;
                 int remainder = 0;
 
@@ -1057,9 +1057,16 @@ namespace TesterProgram
                             xmlindexbyindex++;
 
                             dividend = xmlindexbyindex;
-                            quotient = dividend / divisor + 1;//wafer index
-                            remainder = quotient == 1 ? dividend % divisor : dividend % divisor + 1;//unit index of current wafer
-                            string newfilename = "30018A_PPIDUMMY_CAS01_" + quotient + "_1_25_" + remainder + ".xml";
+                            quotient = dividend / divisor;//wafer index
+                            remainder = dividend % divisor;//unit index of current wafer
+                            if (dividend % divisor == 0)
+                            {
+                                remainder = divisor;
+                                quotient--;
+                            }
+                            else
+                                remainder = dividend % divisor;
+                            string newfilename = "30018A_PPIDUMMY_CAS01_" + quotient + 1 + "_1_25_" + remainder + ".xml";
                             string destFileName = str_H_2 + @"\" + newfilename;// 30018A_PPIDUMMY_CAS01_" + quotient + "_1_25_" + remainder + ".xml";
 
                             if (!Directory.Exists(System.IO.Path.GetDirectoryName(destFileName)))
@@ -1068,7 +1075,7 @@ namespace TesterProgram
                             if (!File.Exists(destFileName))
                             {
                                 File.Copy(sourceFileName, destFileName);
-                                File.AppendAllText(logfilepath, $"{DateTime.Now.ToString("HH:mm:ss.fff")}; [{newfilename}] | Wafer {quotient} | Unit {remainder} | {dividend}" + "\n");
+                                File.AppendAllText(logfilepath, $"{DateTime.Now.ToString("HH:mm:ss.fff")}; [{newfilename}] | Wafer {quotient + 1} | Unit {remainder} | {dividend}" + "\n");
                             }
 
                             Thread.Sleep(delay);
