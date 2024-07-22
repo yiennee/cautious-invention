@@ -42,7 +42,7 @@ namespace TesterProgram
         private ICommand cMD_G_2;
         private ICommand cMD_Log_1;
         private ObservableCollection<string> _runLog = new ObservableCollection<string>();
-        private string str_H_1 = @"E:\offline_xml";
+                private string str_H_1 = @"E:\offline_xml";
         private string str_H_2 = @"E:\dest_xml";
         private string str_H_3 = "1";
         private string str_H_4 = "ms";
@@ -1066,7 +1066,7 @@ namespace TesterProgram
                             }
                             else
                                 remainder = dividend % divisor;
-                            string newfilename = "30018A_PPIDUMMY_CAS01_" + quotient + 1 + "_1_25_" + remainder + ".xml";
+                            string newfilename = "30018A_PPIDUMMY_CAS01_" + (quotient + 1) + "_1_25_" + remainder + ".xml";
                             string destFileName = str_H_2 + @"\" + newfilename;// 30018A_PPIDUMMY_CAS01_" + quotient + "_1_25_" + remainder + ".xml";
 
                             if (!Directory.Exists(System.IO.Path.GetDirectoryName(destFileName)))
