@@ -42,8 +42,8 @@ namespace TesterProgram
         private ICommand cMD_G_2;
         private ICommand cMD_Log_1;
         private ObservableCollection<string> _runLog = new ObservableCollection<string>();
-                private string str_H_1 = @"E:\offline_xml";
-        private string str_H_2 = @"E:\dest_xml";
+        private string str_H_1 = @"C:\Users\Foong Pui Leng\Downloads\XML\offline_xml";
+        private string str_H_2 = @"C:\Users\Foong Pui Leng\source\repos\literate-chainsaw\LiterateChainsaw\bin\WorkingFolder\TransactionPath\To";
         private string str_H_3 = "1";
         private string str_H_4 = "ms";
         private ICommand cMD_H_1;
